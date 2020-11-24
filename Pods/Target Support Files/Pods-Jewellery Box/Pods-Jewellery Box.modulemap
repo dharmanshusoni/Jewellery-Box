@@ -1,0 +1,6 @@
+framework module Pods_Jewellery_Box {
+  umbrella header "Pods-Jewellery Box-umbrella.h"
+
+  export *
+  module * { export * }
+}
