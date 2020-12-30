@@ -6,6 +6,7 @@ target 'Jewellery Box' do
   use_frameworks!
 
   # Pods for Jewellery Box
+  pod 'SkeletonView'
   pod 'Alamofire', '~> 5.2'
   pod 'AlamofireImage', '~> 4.1'
 

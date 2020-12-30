@@ -31,11 +31,13 @@
       "size" : "40x40"
     },
     {
+      "filename" : "rsz_1rsz_2logo.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "60x60"
     },
     {
+      "filename" : "rsz_2logo.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "60x60"
@@ -51,11 +53,13 @@
       "size" : "20x20"
     },
     {
+      "filename" : "rsz_1logo.png",
       "idiom" : "ipad",
       "scale" : "1x",
       "size" : "29x29"
     },
     {
+      "filename" : "rsz_logo.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "29x29"

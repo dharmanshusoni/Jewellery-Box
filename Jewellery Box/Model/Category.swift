@@ -22,6 +22,8 @@ class Category {
     private var _id:Int!
     private var _isAllowed:String!
     
+    var categoryNew: [Category] = []
+    
     var Name : String {
         return _Name
     }
@@ -80,24 +82,45 @@ class Category {
         self._Src = path//"\(URL_BASE)\(URL_CATEGORY)"
         self._categoryURL = "\(URL_BASE)\(URL_CATEGORY)"
     }
-    
+    init()
+    {
+    }
     func downloadCategories(completed: @escaping DownloadComplete){
-        AF.request(_categoryURL).responseJSON { (response) in
+        AF.request("\(URL_BASE)\(URL_CATEGORY)").responseJSON { (response) in
             switch response.result {
             case .success(let value):
-                print(value)
                 let jsonDate = [value]
-                 for category in jsonDate {
-                    print(jsonDate)
-                    if let obj = category as? [String: Any] {
+                for categoryData in jsonDate {
+                    if let obj = categoryData as? [String: Any] {
+                        if let type = obj["data"] as? [AnyObject],type.count>0{
+                            let tList = type
+                            for x in 0..<tList.count {
+                                let id = tList[x]["id"]
+                                self._id = id as! Int
+                                
+                                let name = tList[x]["Name"]
+                                self._Name = name as! String
+                                
+                                let pathSrc : String!
+                                pathSrc = tList[x]["Src"] as? String
+                                self._categoryURL = pathSrc
+                                
+                                let path = "http://cloudseven7-001-site2.ctempurl.com"+pathSrc
+                                self._Src = path
+                                
+                                let cat = Category(name : name as! String,path : path, id: id as! Int)
+                                self.categoryNew.append(cat)
+                            }
+                        }
                     }
                     completed()
                 }
+                //self.collection.reloadData()
                 break
-            case .failure(let error): print(error)
+            case .failure( _):
                 break
             }
-            completed()
+            //completed()
         }
     }
 }

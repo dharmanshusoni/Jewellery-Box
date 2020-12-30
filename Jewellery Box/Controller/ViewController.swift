@@ -8,8 +8,6 @@
 import UIKit
 import Alamofire
 import AlamofireImage
-
-
 class ViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
     
     var category : Category!
@@ -18,42 +16,45 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
     //var categoryNew : Category!
     @IBOutlet weak var navView: UIView!
     @IBOutlet weak var collection : UICollectionView!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         collection.dataSource = self
         collection.delegate = self
-        AF.request("\(URL_BASE)\(URL_CATEGORY)").responseJSON { (response) in
-            switch response.result {
-            case .success(let value):
-                let jsonDate = [value]
-                for categoryData in jsonDate {
-                    if let obj = categoryData as? [String: Any] {
-                        if let type = obj["data"] as? [AnyObject],type.count>0{
-                            let tList = type
-                            for x in 0..<tList.count {
-                                let id = tList[x]["id"]
-                                let name = tList[x]["Name"]
-                                let pathSrc : String!
-                                pathSrc = tList[x]["Src"] as? String
-                                let path = "http://cloudseven7-001-site2.ctempurl.com"+pathSrc
-                                let cat = Category(name : name as! String,path : path, id: id as! Int)
-                                self.categoryNew.append(cat)                                
-                            }
-                        }
-                    }
-                }
-                self.collection.reloadData()
-                break
-            case .failure( _):
-                break
-            }
+        
+//        AF.request("\(URL_BASE)\(URL_CATEGORY)").responseJSON { (response) in
+//            switch response.result {
+//            case .success(let value):
+//                let jsonDate = [value]
+//                for categoryData in jsonDate {
+//                    if let obj = categoryData as? [String: Any] {
+//                        if let type = obj["data"] as? [AnyObject],type.count>0{
+//                            let tList = type
+//                            for x in 0..<tList.count {
+//                                let id = tList[x]["id"]
+//                                let name = tList[x]["Name"]
+//                                let pathSrc : String!
+//                                pathSrc = tList[x]["Src"] as? String
+//                                let path = "http://cloudseven7-001-site2.ctempurl.com"+pathSrc
+//                                let cat = Category(name : name as! String,path : path, id: id as! Int)
+//                                self.categoryNew.append(cat)                                
+//                            }
+//                        }
+//                    }
+//                }
+//                self.collection.reloadData()
+//                break
+//            case .failure( _):
+//                break
+//            }
+//        }
+        category = Category()
+        category.downloadCategories {
+            self.categoryNew = self.category.categoryNew
         }
         navView.addShadow(offset: CGSize.init(width: 0, height: 3), color: UIColor.black, radius: 2.0, opacity: 0.35)
     }
-    
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return categoryNew.count
     }
